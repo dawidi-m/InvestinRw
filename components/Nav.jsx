@@ -6,18 +6,20 @@ import { useState,useEffect } from "react";
 import { signIn,signOut, useSession,getProviders} from 'next-auth/react'
 
 const Nav = () => {
-    const isUserLoggedIn = true;
+   const { data: session }= useSession();
+
 
     const [providers, setProviders] = useState(null);
+    const [toggleDropdown, setToggleDropdown] = useState(false)
    
     useEffect(() =>{
-     const setProviders = async () => {
+     const setUpProviders = async () => {
         const response = await getProviders();
        
         setProviders(response);
      }
 
-     setProviders();
+     setUpProviders();
     },[])
   
     return (
@@ -32,13 +34,13 @@ const Nav = () => {
         />
         <p className="logo_text">InvestInRw</p>
         </Link>
-
+    
         {/* Desktop navigation */}
 
         <div className="sm:flex hidden">
-            {isUserLoggedIn ?(
+            {session?.user ?(
                 <div className="flex gap-3 md:gap-5">
-                    <Link href="/create-prompt"
+                    <Link href="/create-project"
                     className="black_btn">
                     CREATE PROJECT
                     </Link>
@@ -53,7 +55,7 @@ const Nav = () => {
 
                     <Link href="/profile">
                     <Image
-                        src="/assets/images/logo.svg"
+                        src={session?.user.image}
                         alt="Profile"
                         width={37}
                         height={37}
@@ -80,6 +82,64 @@ const Nav = () => {
         </div>
 
           {/* Mobile navigation */}
+          <div className="sm:hidden flex relative">
+            {session?.user ? (
+                <div className="flex">
+                    <Image
+                        src={session?.user.image}
+                        alt="Profile"
+                        width={37}
+                        height={37}
+                        className="rounded-full"
+                        onClick={() => setToggleDropdown(
+                            (prev) => !prev
+                        )}
+                        />
+                        {toggleDropdown && (
+                           <div className="dropdown">
+                            <Link href="/profile"
+                                className="dropdown_link"
+                                onClick={() => setToggleDropdown(false)}
+                            >
+                                My profile
+                            </Link>
+
+                            <Link href="/create-project"
+                                className="dropdown_link"
+                                onClick={() => setToggleDropdown(false)}
+                            >
+                                Create Prompt
+                            </Link>  
+                            <button 
+                              type="button"
+                              onClick={()=> {
+                                setToggleDropdown(false);
+                                signOut()
+                              }}
+                              className="mt-5 w-full black_btn"
+                              >
+                                Sign Out
+                                </button>                          
+                           </div> 
+                        )}
+                </div>
+            ): (
+                <>
+                {providers && 
+                Object.values(providers).map((provider) => (
+                 <button
+                 type="button"
+                 key={provider.name}
+                 onClick={() => signIn(provider.id)}
+                 className="black_btn">
+                    Sign In
+                 </button>   
+                ))}
+                
+                </>
+             )}
+
+          </div>
 
      
 

@@ -64,6 +64,40 @@
   top: 80px;
   opacity: 0.15;
 }
+.chat_box {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.chat_messages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chat_message {
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  padding: 8px;
+}
+
+.chat_input {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
+  padding: 8px;
+  width: calc(100% - 16px);
+}
+
+.input:focus {
+  outline: none;
+}
 
 @media screen and (max-width: 640px) {
   .main {
@@ -168,3 +202,4 @@
 .flex-between {
   @apply flex justify-between items-center;
 }
+

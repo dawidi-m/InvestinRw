@@ -2,6 +2,7 @@
 import { useState,useEffect } from "react"
 
 import ProjectCard from "./ProjectCard";
+import Chat from "./Chat";
 
 const ProjectCardList = ({data, handleTagClick}) => {
   return (
@@ -53,6 +54,7 @@ fetchPosts();
         data = {posts}
         handleTagClick={() => {}}
         />
+      <Chat/>
     
     </section>
   )

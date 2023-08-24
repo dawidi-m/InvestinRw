@@ -5,6 +5,12 @@ import { useSession } from "next-auth/react";
 import { usePathname,useRouter } from "next/navigation";
 
 const ProjectCard = (post, handleTagClick, handleEdit, handleDelete) => {
+  const [copied, setCopied] = useState("");
+  const handleCopy = () =>{
+    setCopied(post.post.creator.username);
+    navigator.clipboard.writeText(post.post.creator.username);
+    setTimeout (()=> setCopied(""),3000);
+  }
 
   
   return (
@@ -19,10 +25,17 @@ const ProjectCard = (post, handleTagClick, handleEdit, handleDelete) => {
       <div className="flex flex-col">
         <h3 className="font-satoshi font-semibold text-gray-900">{post.post.projectName}</h3>
         <p className="font_inter text-sm text-gray-500">{post.post.creator.username}</p>
-        <p className="font-inter text-sm blue_gradient cursor-pointer">{post.post.tags}</p>
+        <p className="font-inter text-sm blue_gradient cursor-pointer"
+        onClick={()=>{ handleTagClick && handleTagClick ()}}>{post.post.tags}</p>
 
-      </div>
+      </div>  
           
+        </div>
+        <div className="copy_btn" onClick={handleCopy}>
+          <Image
+          src= {copied === post.post.creator.username ? '/assets/icons/tick.svg' : '/assets/icons/copy.svg'}
+          width={12}
+          height={12}/>
         </div>
       </div>
     </div>

@@ -67,7 +67,7 @@ const ProfileForm = ({type,profile,setProfile,submitting,handleSubmit}) => {
               className="form_input"
               />
           </label>
-
+{/* 
           <Dropdown>
       <DropdownTrigger>
         <Button 
@@ -76,11 +76,24 @@ const ProfileForm = ({type,profile,setProfile,submitting,handleSubmit}) => {
           Select Role
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Static Actions"  onAction={(key) => setProfile({...profile,identification:key})} >
+      <DropdownMenu aria-label="Static Actions" className="black_btn " onAction={(key) => setProfile({...profile,identification:key})} >
         <DropdownItem key="new">Investor</DropdownItem>
         <DropdownItem key="copy">Project owner</DropdownItem>
       </DropdownMenu>
-    </Dropdown>
+    </Dropdown> */}
+
+<select
+    type='text'
+    name="role"
+    className='itemAvailability form_input'
+    value={profile.role}
+    onChange={(e) => setProfile({...profile,
+      role: e.target.value})}
+> 
+    <option> Select role</option>
+    <option value="investor">investor</option>
+    <option value="owner">owner</option>
+</select>
 
           <div className="flex-end mx-3 mb-5 gap-4">
             <Link href="/" className="text-gray-500 text-sm">

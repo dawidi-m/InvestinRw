@@ -13,28 +13,29 @@ const MyProfile = () => {
   
   const [submitting, setSubmitting] = useState(false);
   const [profile, setProfile] = useState({
-      isinvestor: false,
+      role: false,
       fullname:'',
       phonenbr: '',
-      businesslicense: ''
+      bio: '',
+      identification: ''
   });
 
   const createProfile = async(e) =>{
     e.preventDefault();
     setSubmitting(true);
-
+console.log("a");
     try {
-      const response = await fetch('/api/profile/new',
+        console.log("bc");
+      const response = await fetch('/api/profile/create',
       {
           method: 'POST',
           body: JSON.stringify({
-              isinvestor: profile.isinvestor,
+              role: profile.role,
               userId: session?.user.id,
               fullname: profile.fullname,
               phonenbr: profile.phonenbr,
               bio: profile.bio,
               identification: profile.identification,
-              businesslicense: profile.businesslicense,
 
 
           })

@@ -3,9 +3,12 @@ import { useState,useEffect } from "react"
 
 import ProjectCard from "./ProjectCard";
 import Chat from "./Chat";
+import Link from "next/link";
 
 const ProjectCardList = ({data, handleTagClick}) => {
+
   return (
+    <Link href="/project_details">
     <div className="mt-16 prompt_layout">
       {data.map((post) =>(
         <ProjectCard 
@@ -16,6 +19,7 @@ const ProjectCardList = ({data, handleTagClick}) => {
         />
       ))}
     </div>
+    </Link>
   )
 }
 

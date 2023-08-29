@@ -5,8 +5,8 @@ const ProfileSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    isinvestor:{
-        type: Boolean,
+    role:{
+        type: String,
         required:[true,'Need to know if it is investor or B. Owner'],
 
     },
@@ -33,9 +33,6 @@ const ProfileSchema = new Schema ({
         type: String,
     },
 
-    businesslicense:{
-        type: String,
-    },
 })
 
 const Profile = models.Profile || model ('Profile',ProfileSchema);

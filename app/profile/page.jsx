@@ -1,41 +1,71 @@
-"use client"
-import { useState,useEffect } from "react";
-import { useSession} from "next-auth/react";
+'use client'
+import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import ProfileForm from "@components/ProfileForm";
 
-import Profile from "@components/Profile";
-handleEdit = ()=>{
 
-}
-
-handleDelete = ()=>{
-    
-}
 
 const MyProfile = () => {
 
-  const { data:session } = useSession();
-  useEffect (()=> {
-    const fetchPosts = async() =>{
-      const response =  await fetch(`api/users/${session?.user.id}/posts`)
-      const data = await response.json()
-      setPosts(data)
-    }
-    // console.log(posts);
-   if(session?.user.id) fetchPosts();
-      },[]);
-
-  return ( 
-    
-    <Profile
-    name="My"
-    desc= "Welcome to your personalised profile page"
-    data = {posts}
-    handleEdit ={handleEdit}
-    handleDelete={handleDelete} 
-    />
+  const router = useRouter();
+  const {data: session} = useSession();
   
+  const [submitting, setSubmitting] = useState(false);
+  const [profile, setProfile] = useState({
+      isinvestor: false,
+      fullname:'',
+      phonenbr: '',
+      businesslicense: ''
+  });
+
+  const createProfile = async(e) =>{
+    e.preventDefault();
+    setSubmitting(true);
+
+    try {
+      const response = await fetch('/api/profile/new',
+      {
+          method: 'POST',
+          body: JSON.stringify({
+              isinvestor: profile.isinvestor,
+              userId: session?.user.id,
+              fullname: profile.fullname,
+              phonenbr: profile.phonenbr,
+              bio: profile.bio,
+              identification: profile.identification,
+              businesslicense: profile.businesslicense,
+
+
+          })
+      })
+
+      if(response.ok){
+          router.push('/');
+      }
+     } catch (error) {
+      console.log(error);
+     } finally {
+      setSubmitting(false);
+     }
+  }
+
+  return (
+
+      <div>
+     <ProfileForm
+     type="Create"
+     profile = {profile}
+     setProfile = {setProfile}
+     submitting = {submitting}
+     handleSubmit= {createProfile}
+
+     />
+
+      </div>
+
+    
   )
 }
 
-export default MyProfile
+export default MyProfile;

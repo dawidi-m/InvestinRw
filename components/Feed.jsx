@@ -54,7 +54,9 @@ fetchPosts();
         data = {posts}
         handleTagClick={() => {}}
         />
-      <Chat/>
+        
+        {/* load chatbot */}
+      {/* <Chat/> */}
     
     </section>
   )
